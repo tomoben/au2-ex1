@@ -20,7 +20,7 @@ module.exports = function (env, { analyze }) {
 	return {
 		target: 'web',
 		mode: production ? 'production' : 'development',
-		devtool: production ? undefined : 'eval-cheap-source-map',
+		devtool: 'inline-source-map',
 		entry: {
 			entry: './src/main.ts'
 		},
