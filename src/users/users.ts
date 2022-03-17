@@ -1,21 +1,17 @@
-import { HttpClient } from '@aurelia/fetch-client';
 import { EventAggregator, inject } from 'aurelia';
 import { Rest } from '../util/rest';
 import { UserData } from './users-data';
 
-@inject(EventAggregator, HttpClient)
+@inject(EventAggregator, Rest)
 export class Users {
-	public rest: Rest;
 	public users;
 	public selectedUser: UserData;
 	private firstUser = 0;
 	private lastUser = 0;
-	private ea: EventAggregator;
 
-	constructor(private eventAggragator: EventAggregator, public http: HttpClient) {
-		this.ea = eventAggragator;
-		this.rest = new Rest(http);
+	constructor(private ea: EventAggregator, private rest: Rest) { }
 
+	public created() {
 		this.subscribe();
 	}
 
@@ -24,12 +20,12 @@ export class Users {
 	}
 
 	public subscribe(): void {
-		this.ea.subscribe("userSelected", (user: UserData) => {
+		this.ea.subscribe('userSelected', (user: UserData) => {
 			this.selectedUser = user;
 		});
 	}
 
-	public async getUsers() {
+	public async getUsers(): Promise<void> {
 		const response = await this.rest.getUsers(`?since=${this.lastUser}`);
 
 		this.users = response.map(u => {
@@ -49,7 +45,7 @@ export class Users {
 		}
 	}
 
-	public flipUsersToFront() {
-		this.ea.publish("flipToFront");
+	public flipUsersToFront(): void {
+		this.ea.publish('flipToFront');
 	}
 }

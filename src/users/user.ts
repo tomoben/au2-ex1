@@ -1,21 +1,17 @@
-import { HttpClient } from '@aurelia/fetch-client';
 import { bindable, EventAggregator, inject } from 'aurelia';
 import { Rest } from '../util/rest';
 import { UserData } from './users-data';
 
-@inject(EventAggregator, HttpClient)
+@inject(EventAggregator, Rest)
 export class User {
 	@bindable public user: UserData;
-	private ea: EventAggregator;
-	private rest: Rest;
 	private cardPanel: Element;
 	private isUserRetrieved = false;
-	private readonly FLIPPED_CLASS: string = "is-flipped";
+	private readonly FLIPPED_CLASS: string = 'is-flipped';
 
-	constructor(private eventAggragator: EventAggregator, public http: HttpClient) {
-		this.ea = eventAggragator;
-		this.rest = new Rest(http);
+	constructor(private ea: EventAggregator, private rest: Rest) { }
 
+	public created() {
 		this.subscribe();
 	}
 
@@ -24,16 +20,16 @@ export class User {
 	}
 
 	public subscribe(): void {
-		this.ea.subscribe("flipToFront", () => {
-			this.cardPanel.classList.remove(this.FLIPPED_CLASS);
+		this.ea.subscribe('flipToFront', () => {
+			this.cardPanel?.classList.remove(this.FLIPPED_CLASS);
 		});
 	}
 
 	public publish(user): void {
-		this.ea.publish("userSelected", user);
+		this.ea.publish('userSelected', user);
 	}
 
-	public async getUser(userLogin: string) {
+	public async getUser(userLogin: string): Promise<void> {
 		this.flipUser();
 
 		if (this.isUserRetrieved) {
@@ -55,7 +51,7 @@ export class User {
 		this.isUserRetrieved = true;
 	}
 
-	public flipUser() {
-		this.cardPanel.classList.toggle(this.FLIPPED_CLASS);
+	public flipUser(): void {
+		this.cardPanel?.classList.toggle(this.FLIPPED_CLASS);
 	}
 }
