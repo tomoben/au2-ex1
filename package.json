@@ -9,6 +9,7 @@
 	"license": "UNLICENSED",
 	"dependencies": {
 		"aurelia": "latest",
+		"aurelia2-google-maps": "^0.0.14",
 		"font-awesome": "^4.7.0"
 	},
 	"devDependencies": {
