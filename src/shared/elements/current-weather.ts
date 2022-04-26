@@ -1,26 +1,22 @@
-import { HttpClient } from '@aurelia/fetch-client';
 import { inject } from '@aurelia/kernel';
 import { bindable } from 'aurelia';
 import { Rest } from '../../util/rest';
 
-@inject(HttpClient)
+@inject(Rest)
 export class CurrentWeatherCustomElement {
 	@bindable public city: string;
-	public apiKey = "37cb5829e9494a46ae209ab5417df674";  // API key from https://www.weatherbit.io
+	public apiKey = '37cb5829e9494a46ae209ab5417df674';  // API key from https://www.weatherbit.io
 	public currentWeather;
-	public temperatureUnits = "C";
+	public temperatureUnits = 'C';
 	public error: string;
 	public iconUrl: string;
-	public rest: Rest;
 
-	constructor(public http: HttpClient) {
-		this.rest = new Rest(http);
-	}
+	constructor(private rest: Rest) { }
 
 	get temperature(): string {
 		let value = "";
 
-		if (this.currentWeather && this.currentWeather.count) {
+		if (this.currentWeather?.count) {
 			const data = this.currentWeather.data[0];
 
 			value = `${Math.round(data.temp).toString()}`;
@@ -32,7 +28,7 @@ export class CurrentWeatherCustomElement {
 	get weatherDescription(): string {
 		let valueToDisplay = "";
 
-		if (this.currentWeather && this.currentWeather.count) {
+		if (this.currentWeather?.count) {
 			const data = this.currentWeather.data[0];
 
 			valueToDisplay = `${data.weather.description}`;
@@ -49,7 +45,7 @@ export class CurrentWeatherCustomElement {
 		this.rest.getWeatherCurrentGeosearch(this.apiKey, this.city)
 		.then((response: any) => {
 			if (!response) {
-				throw new Error("No response");
+				throw new Error('No response');
 			}
 			if (response.error) {
 				throw response.error;
