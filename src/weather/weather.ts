@@ -17,7 +17,9 @@ export class Weather {
 	public gmap;
 	public mapOptions: MapOptions = {
 		address: '',
-		zoom: 12
+		zoom: 12,
+		lat: 40.71427,
+		lon: -74.00597
 	};
 	public myClass: string = Math.random() > 0.5 ? 'benny' : '';
 
@@ -51,8 +53,8 @@ export class Weather {
 	}
 
 	public submit() {
-		// this.weatherWidget.getWeatherCurrentGeosearch();
-		// this.weatherWidget2.getWeatherCurrentGeosearch();
+		this.weatherWidget.getWeatherCurrentGeosearch();
+		this.weatherWidget2.getWeatherCurrentGeosearch();
 		this.cityToWeather = this.city;
 
 		return false;

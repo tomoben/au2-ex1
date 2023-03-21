@@ -1,4 +1,5 @@
-import Aurelia, { RouterConfiguration } from 'aurelia';
+import { RouterConfiguration } from '@aurelia/router';
+import Aurelia from 'aurelia';
 import { GoogleMapsConfiguration } from 'aurelia2-google-maps';
 import { App } from './app';
 import { SharedElements } from './shared/elements';
@@ -23,9 +24,7 @@ Aurelia
 		Utils
 	)
 	.register(
-		GoogleMapsConfiguration.customize(config => {
-			config.apiKey = 'AIzaSyBDpatbgT78e3gupI5NgbFsyoS7_P9fUcY';
-		})
+		GoogleMapsConfiguration.configure(mapsPluginOptions)
 	)
 	.app(App)
 	.start();

@@ -20,7 +20,7 @@ module.exports = function (env, { analyze }) {
 	return {
 		target: 'web',
 		mode: production ? 'production' : 'development',
-		devtool: 'inline-source-map',
+		devtool: production ? undefined : 'eval-cheap-source-map',
 		entry: {
 			entry: './src/main.ts'
 		},
@@ -50,10 +50,10 @@ module.exports = function (env, { analyze }) {
 					'webpack-loader',
 				].reduce((map, pkg) => {
 					const name = `@aurelia/${pkg}`;
-					map[name] = path.resolve(__dirname, 'node_modules', name, 'dist/esm/index.dev.js');
+					map[name] = path.resolve(__dirname, 'node_modules', name, 'dist/esm/index.dev.mjs');
 					return map;
 				}, {
-					'aurelia': path.resolve(__dirname, 'node_modules/aurelia/dist/esm/index.dev.js'),
+					'aurelia': path.resolve(__dirname, 'node_modules/aurelia/dist/esm/index.dev.mjs'),
 					// add your development aliasing here
 				})
 			}
@@ -88,7 +88,11 @@ module.exports = function (env, { analyze }) {
 						}
 					]
 				},
-				{ test: /\.ts$/i, use: ['ts-loader', '@aurelia/webpack-loader'], exclude: /node_modules/ },
+				{
+					test: /\.ts$/i,
+					use: ['ts-loader', '@aurelia/webpack-loader'],
+					exclude: /node_modules/
+				},
 				{
 					test: /[/\\]src[/\\].+\.html$/i,
 					use: '@aurelia/webpack-loader',
@@ -97,7 +101,7 @@ module.exports = function (env, { analyze }) {
 			]
 		},
 		plugins: [
-			new HtmlWebpackPlugin({ template: 'index.html' }),
+			new HtmlWebpackPlugin({ template: 'index.html', favicon: 'favicon.ico' }),
 			new Dotenv({
 				path: `./.env${production ? '' : '.' + (process.env.NODE_ENV || 'development')}`,
 			}),

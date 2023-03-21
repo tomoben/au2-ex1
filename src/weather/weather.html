@@ -3,7 +3,7 @@
 
 <section class="au-animate">
 	<div>
-		<form class="form-horizontal" role="form" submit.delegate="submit()">
+		<form class="form-horizontal" role="form" submit.trigger="submit()">
 			<h2 class="bold ${myClass}">${heading}</h2>
 			<div class="form-group">
 				<label class="col-sm-1 control-label" for="">City:</label>
@@ -34,5 +34,6 @@
 </section>
 <section>
 	<!-- <google-map class="map-box" view-model.ref="gmap" address.bind="mapOptions.address" zoom.bind="mapOptions.zoom"></google-map> -->
-	<google-map class="map-box" address.bind="mapOptions.address" zoom.bind="mapOptions.zoom"></google-map>
+	<!-- <google-map class="map-box" address.bind="mapOptions.address" zoom.bind="mapOptions.zoom"></google-map> -->
+	<google-map class="map-box" latitude.bind="mapOptions.lat" longitude.bind="mapOptions.lon" zoom.bind="mapOptions.zoom"></google-map>
 </section>

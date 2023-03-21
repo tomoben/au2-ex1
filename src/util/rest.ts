@@ -21,7 +21,7 @@ export class Rest {
 
 	public getWeatherCurrentGeosearch(key: string, params: string): Promise<Response> {
 		const url = `?key=${key}&city=${params}`;
-		this.http.baseUrl = 'http://api.weatherbit.io/v1.0/current/geosearch';
+		this.http.baseUrl = 'http://api.weatherbit.io/v2.0/current';
 
 		return this.http.fetch(url)
 			.then(response => {
